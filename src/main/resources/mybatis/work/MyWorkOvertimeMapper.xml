@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.work.dao.MyWorkOvertimeDao">
+    <select id="list" resultType="com.bootdo.work.domain.WorkAddDO">
+        select
+        work_id,work_num,name,begin_time,end_time,state,time_length,dept_name FROM work_overtime
+        <where>
+            <!--没找到前端type字段的位置，所以先使用type字段代替workNum-->
+            <!--<if test="type != null and type != ''"> and work_num = #{type} </if>-->
+            <if test="beginTime != null and beginTime != ''">and millisecond >= #{beginTime}</if>
+            <if test="beginTime != null and beginTime != ''">and millisecond &lt;= #{endTime} </if>
+            <if test="username != null and username != ''"> and username = #{username} </if>
+        </where>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+    <select id="count" resultType="int">
+        SELECT COUNT(*) FROM work_overtime
+        <where>
+            <if test="username != null and username != ''"> and username = #{username} </if>
+            <if test="beginTime != null and beginTime != ''">and millisecond >= #{beginTime}</if>
+            <if test="beginTime != null and beginTime != ''">and millisecond &lt;= #{endTime} </if>
+        </where>
+    </select>
+
+    <insert id="save" parameterType="com.bootdo.work.domain.WorkAddDO">
+        INSERT INTO work_overtime (work_num,name,begin_time,end_time,state,time_length,millisecond,dept_name,dept_id,username) values
+        (#{workNum},#{name},#{beginTime},#{endTime},#{state},#{timeLength},#{millisecond},#{deptName},#{deptId},#{username})
+    </insert>
+
+    <select id="get" resultType="com.bootdo.work.domain.WorkAddDO">
+        select
+        work_id,work_num,name,begin_time,end_time,state,time_length,dept_name FROM work_overtime
+        WHERE work_id = #{value}
+    </select>
+
+    <update id="update" parameterType="com.bootdo.work.domain.WorkAddDO">
+        update work_overtime
+        <set>
+            <if test="beginTime != null"> begin_time = #{beginTime}, </if>
+            <if test="endTime != null"> end_time = #{endTime}, </if>
+            <if test="state != null"> state = #{state}, </if>
+            <if test="timeLength != null"> time_length = #{timeLength}, </if>
+            <if test="millisecond != null"> millisecond = #{millisecond}, </if>
+        </set>
+        where work_id = #{workId}
+    </update>
+
+    <delete id="remove">
+        delete from work_overtime where work_id = #{value}
+    </delete>
+
+    <delete id="batchRemove">
+        delete from work_overtime where work_id in
+        <foreach item="id" collection="array" open="(" separator=","
+                 close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

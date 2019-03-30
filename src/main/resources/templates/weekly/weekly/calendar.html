@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head th:include="include :: header">
+    <meta charset='utf-8'/>
+    <style>
+        body {
+            margin: 40px 10px;
+            padding: 0;
+            font-family: "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;
+            font-size: 14px;
+        }
+        #calendar {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+
+<div id='calendar'></div>
+
+<div th:include="include::footer"></div>
+
+<script src="/js/appjs/weekly/weekly/calendar.js"></script>
+
+<link href='/js/plugins/fullcalendar-3.10.0/fullcalendar.min.css' rel='stylesheet'/>
+<link href='/js/plugins/fullcalendar-3.10.0/fullcalendar.print.min.css' rel='stylesheet' media='print'/>
+
+<script src="/js/plugins/fullcalendar-3.10.0/zh-cn.js"></script>
+<script src='/js/plugins/fullcalendar-3.10.0/lib/moment.min.js'></script>
+<script src='/js/plugins/fullcalendar-3.10.0/lib/jquery.min.js'></script>
+<script src='/js/plugins/fullcalendar-3.10.0/fullcalendar.min.js'></script>
+<script src="/js/plugins/fullcalendar-3.10.0/zh-cn.js"></script>
+</body>
+</html>

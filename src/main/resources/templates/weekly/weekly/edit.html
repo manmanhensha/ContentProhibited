@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="col-sm-12">
+                        <!--<h4>周报</h4>-->
+                    </div>
+                    <form class="form-horizontal m-t" id="signupForm">
+                        <input id="id" name="id" type="hidden" th:value="${weekly.id}">
+                        <div class="form-group">
+                            <div class="col-sm-4">
+                                <div class="input-content">
+                                    <label class="col-sm-1 control-label">日期：</label>
+                                    <input id="test1" type="text"
+                                           th:value="${#dates.format(weekly.createTime,'yyyy-MM-dd')}"
+                                           readonly="readonly" class="form-control" placeholder="周报日期">
+                                </div>
+                                <div class="input-content">
+                                    <label class="col-sm-1 control-label">标题：</label>
+                                    <input id="title" name="title" th:value="${weekly.title}" class="form-control"
+                                           type="text">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+
+                            <label class="col-sm-1 control-label">内容：</label>
+                            <!--bootstrap组件-->
+                            <table id="exampleTable" data-mobile-responsive="true">
+                            </table>
+                        </div>
+                        <div class="text-right form-group">
+                            <button type="button"
+                                    class="btn btn-primary waves-effect waves-light"
+                                    onclick="save(1)">更新
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="include::footer"></div>
+<style>
+    .col-sm-4 {
+        width: 600px;
+    }
+
+    .col-sm-4 #test1 {
+        width: 100px;
+        float: left;
+    }
+
+    .col-sm-4 #title {
+        width: 200px;
+        margin-right: 25px;
+        float: left;
+    }
+
+    #signupForm label {
+        min-width: 100px;
+    }
+</style>
+<script type="text/javascript" src="/js/appjs/weekly/weekly/edit.js"></script>
+</body>
+</html>
