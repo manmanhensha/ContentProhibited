@@ -32,7 +32,9 @@ spring:
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
-  mapper-locations: mybatis/**/*Mapper.xml
+  mapper-locations: classpath:mybatis/**/*Mapper.xml
   typeAliasesPackage: com.bootdo.**.domain
+mapper:
+  mappers: com.bootdo.contentProhibited.dao.CommunityDao
 #[弃用]配置缓存和session存储方式，默认ehcache,可选redis,[弃用]调整至 spring cache type【shiro.用户，权限，session，spring.cache通用】
 #[弃用]cacheType: ehcache
