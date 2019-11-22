@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="renderer" content="webkit">
-    <title>面向学习型的开源框架，简洁高效，减少过渡封装，展现技术本质</title>
-    <meta name="keywords" content="面向学习型的开源框架，简洁高效，杜绝过渡封装，展现技术本质本质">
-    <meta name="description" content="面向学习型的开源框架，简洁高效，杜绝过渡封装，展现技术本质本质">
+    <title>敏感词筛选系统</title>
+    <meta content="敏感词筛选系统" name="keywords">
+    <meta content="敏感词筛选系统" name="description">
     <!--[if lt IE 9]>
     <meta http-equiv="refresh" content="0;ie.html"/>
     <![endif]-->
@@ -29,9 +29,8 @@
             <ul class="nav" id="side-menu">
                 <li class="nav-header">
                     <div>
-                        <span><img alt="image" class="img-circle" height="60" width="60" th:src="${picUrl}"/></span>
                         <h3 class="" style="color: #ffffff">
-                            </i>用友汽车后台管理系统
+                            </i>敏感词筛选系统
                         </h3>
                     </div>
                     <div class="dropdown profile-element hidden">
@@ -56,17 +55,9 @@
                             <li><a href="/logout">安全退出</a>
                             </li>
                         </ul>
-                        <div class="logo-element">用友汽车</div>
+                        <div class="logo-element">敏感词筛选系统</div>
                     </div>
                 </li>
-                <!--<li><a href="#"> <i class="fa fa-home"></i> <span-->
-                        <!--class="nav-label">主页</span> <span class="fa arrow"></span>-->
-                <!--</a>-->
-                    <!--<ul class="nav nav-second-level">-->
-                        <!--<li><a id="index001" class="J_menuItem" href="index_v1.html"-->
-                               <!--data-index="0" th:href="@{/main}">了解用友汽车</a></li>-->
-                    <!--</ul>-->
-                <!--</li>-->
                 <li th:each="menu : ${menus}"><a href="#"> <i
                         class="fa fa fa-bar-chart-o" th:class="${menu.attributes.icon}"></i>
                     <span class="nav-label" th:text="${menu.text}">基础信息</span> <span
@@ -100,36 +91,6 @@
                     </form>
                 </div>
                 <ul class="nav navbar-top-links navbar-right">
-                    <!--<li class="hidden-xs"><a href="/blog" target="_Blank"-->
-                                             <!--class=""><i class="fa fa-rss-square"></i>博客</a></li>-->
-                    <!--<li class="dropdown"><a class="dropdown-toggle count-info"-->
-                                            <!--data-toggle="dropdown" href="#"> <i class="fa fa-envelope"></i>-->
-                        <!--<span class="label label-warning">{{total}}</span>通知-->
-                    <!--</a>-->
-                        <!--<ul class="dropdown-menu dropdown-messages">-->
-                            <!--<li v-for="row in rows" class="m-t-xs">-->
-                                <!--<div class="dropdown-messages-box">-->
-                                    <!--<a class="pull-left"> <i-->
-                                            <!--class="fa fa-server"></i>-->
-                                    <!--</a>-->
-                                    <!--<div class="media-body">-->
-                                        <!--<small class="pull-right">{{row.before}}</small>-->
-                                        <!--<strong>{{row.sender}}</strong>-->
-                                        <!--{{row.title}} <br>-->
-                                        <!--<small class="text-muted">{{row.updateDate}}</small>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                                <!--<div class="divider"></div>-->
-                            <!--</li>-->
-                            <!--<li>-->
-                                <!--<div class="text-center link-block">-->
-                                    <!--<a class="J_menuItem" href="/oa/notify/selfNotify"> <i-->
-                                            <!--class="fa fa-envelope"></i> <strong> 查看所有消息</strong>-->
-                                    <!--</a>-->
-                                <!--</div>-->
-                            <!--</li>-->
-                        <!--</ul>-->
-                    <!--</li>-->
                     <li class="hidden-xs"><a @click="personal" href="#" ><i class="fa fa-id-card"></i> 个人</a></li>
                     <li class="dropdown hidden-xs"><a
                             class="right-sidebar-toggle" aria-expanded="false"> <i
@@ -170,9 +131,6 @@
                     src="" th:src="@{/main}" frameborder="0" data-id="index_v1.html"
                     seamless></iframe>
         </div>
-        <!--<div class="footer">-->
-            <!--<div class="pull-right">BootDo面向学习型的开源框架</div>-->
-        <!--</div>-->
     </div>
     <!--右侧部分结束-->
     <!--右侧边栏开始-->
@@ -256,24 +214,6 @@
                         </div>
                     </div>
                 </div>
-                <!--<div id="tab-2" class="tab-pane">-->
-
-                    <!--<div class="sidebar-title">-->
-                        <!--<h3>-->
-                            <!--<i class="fa fa-comments-o"></i> 最新通知-->
-                        <!--</h3>-->
-                        <!--<small><i class="fa fa-tim"></i> 您当前有10条未读信息</small>-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--<div id="tab-3" class="tab-pane">-->
-
-                    <!--<div class="sidebar-title">-->
-                        <!--<h3>-->
-                            <!--<i class="fa fa-cube"></i> 最新任务-->
-                        <!--</h3>-->
-                        <!--<small><i class="fa fa-tim"></i> 您当前有14个任务，10个已完成</small>-->
-                    <!--</div>-->
-                <!--</div>-->
             </div>
 
         </div>

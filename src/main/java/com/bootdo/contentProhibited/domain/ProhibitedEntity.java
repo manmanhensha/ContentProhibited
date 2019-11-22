@@ -12,7 +12,7 @@ import java.util.Date;
 public class ProhibitedEntity {
 	@Id
 	@Column(name = "prohibited_id")
-	private String prohibitedId;
+	private Long prohibitedId;
 
 	/**
 	 * 违禁词

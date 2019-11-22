@@ -35,23 +35,27 @@ public class ContentProhibitedController {
 	@ResponseBody
 	@PostMapping(value = "contentProhibited")
 	public R testConternt(@RequestBody String content) {
-		List<String> strings = service.matchWords(content);
-		final List<String> collect = strings.stream().distinct().collect(Collectors.toList());
-		long startTime = System.currentTimeMillis();
+		if (StrUtil.isNotBlank(content)) {
+			List<String> strings = service.matchWords(content);
+			final List<String> collect = strings.stream().distinct().collect(Collectors.toList());
+			long startTime = System.currentTimeMillis();
 
-		if (CollUtil.isNotEmpty(collect)) {
-			for (String s : collect) {
-				content = StrUtil.replace(content, s,
-						"<span style=\"color: rgb(255, 0, 0);\">" + s + "</span>");
+			if (CollUtil.isNotEmpty(collect)) {
+				for (String s : collect) {
+					content = StrUtil.replace(content, s,
+							"<span style=\"color: rgb(255, 0, 0);\">" + s + "</span>");
+				}
 			}
+
+			HashMap<String, Object> map = new HashMap<>(12);
+			map.put("keywords", collect);
+			map.put("content", content);
+			log.warn("耗时 : " + (System.currentTimeMillis() - startTime));
+
+			return R.ok(map);
+		} else {
+			return R.error("请输入合法文本内容！");
 		}
-
-		HashMap<String, Object> map = new HashMap<>(12);
-		map.put("keywords", collect);
-		map.put("content", content);
-		log.warn("耗时 : " + (System.currentTimeMillis() - startTime));
-
-		return R.ok(map);
 	}
 
 }

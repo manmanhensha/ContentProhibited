@@ -2,9 +2,10 @@ package com.bootdo.contentProhibited.controller;
 
 import com.bootdo.common.utils.PageUtils;
 import com.bootdo.common.utils.R;
-import com.bootdo.common.utils.ShiroUtils;
-import com.bootdo.contentProhibited.dto.*;
-import com.bootdo.contentProhibited.domain.ErrorCode;
+import com.bootdo.contentProhibited.dto.PartitionInDTO;
+import com.bootdo.contentProhibited.dto.PartitionOutDTO;
+import com.bootdo.contentProhibited.dto.ProhibitedDO;
+import com.bootdo.contentProhibited.dto.ProhibitedOutDTO;
 import com.bootdo.contentProhibited.service.ProhibitedService;
 import com.bootdo.contentProhibited.util.CommunityPage;
 import com.google.common.collect.Lists;
@@ -69,9 +70,9 @@ public class ProhibitedController {
 	public R save(ProhibitedDO prohibited) {
 
 		if (StringUtils.isNotBlank(prohibited.getCode())) {
-			String[] pArray = StringUtils.split(prohibited.getCode(), ",");
+			String[] pArray = StringUtils.split(prohibited.getCode(), "，");
 			List<String> plist = Lists.newArrayList(pArray);
-			boolean outDTO = service.insertProhibitedList(String.valueOf(ShiroUtils.getUser().getUserId()), plist);
+			boolean outDTO = service.insertProhibitedList(plist);
 			if (outDTO) {
 				return R.ok();
 			} else {
@@ -91,7 +92,7 @@ public class ProhibitedController {
 	public R remove(@RequestParam("ids[]") String[] prohibitedIds) {
 		if (prohibitedIds != null && prohibitedIds.length > 0) {
 			List<String> plist = Lists.newArrayList(prohibitedIds);
-			boolean outDTO = service.insertProhibitedList(String.valueOf(ShiroUtils.getUser().getUserId()), plist);
+			boolean outDTO = service.insertProhibitedList(plist);
 			if (outDTO) {
 				return R.ok();
 			} else {
@@ -107,13 +108,14 @@ public class ProhibitedController {
 	 *
 	 * @return
 	 */
-	@GetMapping(value = "selectProhibitedList")
-	public BaseOutDTO<PartitionOutDTO<ProhibitedOutDTO>> refreshProhibitedList() {
-		service.refreshProhibitedList();
-		final BaseOutDTO outDTO = BaseOutDTO.builder().status(BaseOutDTO.BaseOutType.SUCCEED.name())
-				.errorCode(ErrorCode.SUCCEED.getCode())
-				.data(null).build();
-		return outDTO;
+	@GetMapping(value = "refreshProhibitedList")
+	public R refreshProhibitedList() {
+		try {
+			service.refreshProhibitedList();
+		} catch (RuntimeException e) {
+			return R.error(e.getMessage());
+		}
+		return R.ok();
 	}
 
 }

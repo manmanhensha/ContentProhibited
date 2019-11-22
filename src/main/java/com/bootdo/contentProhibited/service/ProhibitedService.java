@@ -15,22 +15,20 @@ public interface ProhibitedService {
 	/**
 	 * 批量添加违禁词
 	 *
-	 * @param userId         用户ID
 	 * @param prohibitedList 违禁词集合
 	 * @return {@code true} 操作成功 {@code false} 操作失败
 	 * @throws RuntimeException 社区异常
 	 */
-	boolean insertProhibitedList(String userId, List<String> prohibitedList) throws RuntimeException;
+	boolean insertProhibitedList(List<String> prohibitedList) throws RuntimeException;
 
 	/**
 	 * 批量删除违禁词
 	 *
-	 * @param userId           用户ID
 	 * @param prohibitedIdList 违禁词ID集合
 	 * @return {@code true} 操作成功 {@code false} 操作失败
 	 * @throws RuntimeException 社区异常
 	 */
-	boolean deleteProhibitedList(String userId, List<String> prohibitedIdList) throws RuntimeException;
+	boolean deleteProhibitedList(List<String> prohibitedIdList) throws RuntimeException;
 
 	/**
 	 * 分页查询-违禁词列表
