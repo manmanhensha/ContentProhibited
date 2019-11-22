@@ -11,35 +11,35 @@
         name: '字体',
         size: '字号'
       },
-      image: {
-        image: '图片',
-        insert: '插入图片',
-        resizeFull: '调整至 100%',
-        resizeHalf: '调整至 50%',
-        resizeQuarter: '调整至 25%',
-        floatLeft: '左浮动',
-        floatRight: '右浮动',
-        floatNone: '不浮动',
-        dragImageHere: '将图片拖至此处',
-        selectFromFiles: '从本地上传',
-        url: '图片地址'
-      },
-      link: {
-        link: '链接',
-        insert: '插入链接',
-        unlink: '去除链接',
-        edit: '编辑链接',
-        textToDisplay: '显示文本',
-        url: '链接地址',
-        openInNewWindow: '在新窗口打开'
-      },
-      video: {
-        video: '视频',
-        videoLink: '视频链接',
-        insert: '插入视频',
-        url: '视频地址',
-        providers: '(优酷, Instagram, DailyMotion, Youtube等)'
-      },
+        // image: {
+        //   image: '图片',
+        //   insert: '插入图片',
+        //   resizeFull: '调整至 100%',
+        //   resizeHalf: '调整至 50%',
+        //   resizeQuarter: '调整至 25%',
+        //   floatLeft: '左浮动',
+        //   floatRight: '右浮动',
+        //   floatNone: '不浮动',
+        //   dragImageHere: '将图片拖至此处',
+        //   selectFromFiles: '从本地上传',
+        //   url: '图片地址'
+        // },
+        // link: {
+        //   link: '链接',
+        //   insert: '插入链接',
+        //   unlink: '去除链接',
+        //   edit: '编辑链接',
+        //   textToDisplay: '显示文本',
+        //   url: '链接地址',
+        //   openInNewWindow: '在新窗口打开'
+        // },
+        // video: {
+        //   video: '视频',
+        //   videoLink: '视频链接',
+        //   insert: '插入视频',
+        //   url: '视频地址',
+        //   providers: '(优酷, Instagram, DailyMotion, Youtube等)'
+        // },
       table: {
         table: '表格'
       },

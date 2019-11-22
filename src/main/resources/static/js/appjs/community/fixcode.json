@@ -1,0 +1,43 @@
+{
+  "yesOrNo": [
+    {
+      "name": "是",
+      "value": "1",
+      "style": "label-primary"
+    },
+    {
+      "name": "否",
+      "value": "0",
+      "style": "label-danger"
+    }
+  ],
+  "sword": [
+    {
+      "name": "存在敏感词",
+      "value": "1",
+      "style": "label-danger"
+    },
+    {
+      "name": "正常",
+      "value": "0",
+      "style": "label-primary"
+    }
+  ],
+  "apprStatus": [
+    {
+      "name": "未审核",
+      "value": "1",
+      "style": "label-info"
+    },
+    {
+      "name": "审核通过",
+      "value": "2",
+      "style": "label-primary"
+    },
+    {
+      "name": "审核不通过",
+      "value": "3",
+      "style": "label-danger"
+    }
+  ]
+}

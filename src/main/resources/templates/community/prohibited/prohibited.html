@@ -33,12 +33,11 @@
 
                 <div class="fixed-table-toolbar">
                     <div class="columns pull-left">
-                        <button class="btn  btn-primary" onclick="add()" shiro:hasPermission="community:prohibited:add"
+                        <button class="btn  btn-primary" onclick="add()"
                                 type="button">
                             <i aria-hidden="true" class="fa fa-plus"></i>添加
                         </button>
                         <button class="btn  btn-danger" onclick="batchRemove()"
-                                shiro:hasPermission="community:prohibited:batchRemove"
                                 type="button">
                             <i aria-hidden="true" class="fa fa-trash"></i>删除
                         </button>
@@ -50,30 +49,6 @@
             </div>
         </div>
     </div>
-</div>
-<!--shiro控制bootstraptable行内按钮看见性 来自bootdo的创新方案 -->
-<div>
-    <script type="text/javascript">
-        var s_edit_h = 'hidden';
-        var s_remove_h = 'hidden';
-        var s_resetPwd_h = 'hidden';
-    </script>
-</div>
-<div shiro:hasPermission="community:prohibited:edit">
-    <script type="text/javascript">
-        s_edit_h = '';
-    </script>
-</div>
-<div shiro:hasPermission="community:prohibited:remove">
-    <script type="text/javascript">
-        var s_remove_h = '';
-    </script>
-</div>
-<div shiro:hasPermission="community:prohibited:resetPwd">
-    <script type="text/javascript">
-        var s_resetPwd_h = '';
-    </script>
-</div>
 </div>
 <div th:include="community_include :: community_footer"></div>
 <script src="/js/appjs/community/prohibited/prohibited.js" type="text/javascript"></script>

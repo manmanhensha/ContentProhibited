@@ -12,4 +12,6 @@
         <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime"/>
         <result column="updated_by" jdbcType="VARCHAR" property="updatedBy"/>
     </resultMap>
+
+
 </mapper>

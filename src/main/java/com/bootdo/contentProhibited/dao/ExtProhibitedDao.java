@@ -2,7 +2,6 @@ package com.bootdo.contentProhibited.dao;
 
 
 import com.bootdo.contentProhibited.domain.ProhibitedEntity;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -11,7 +10,6 @@ import java.util.List;
  * @auther: CoffeeN
  * @date: 2018/12/25 21:01
  */
-@Repository
 public interface ExtProhibitedDao {
 
 	/**

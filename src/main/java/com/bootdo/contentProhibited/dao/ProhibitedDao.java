@@ -2,8 +2,8 @@ package com.bootdo.contentProhibited.dao;
 
 
 import com.bootdo.contentProhibited.domain.ProhibitedEntity;
-import org.springframework.stereotype.Repository;
+import com.bootdo.contentProhibited.util.CommunityDao;
 
-@Repository
+
 public interface ProhibitedDao extends CommunityDao<ProhibitedEntity> {
 }
