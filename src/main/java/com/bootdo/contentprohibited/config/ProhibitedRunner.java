@@ -1,6 +1,6 @@
-package com.bootdo.contentProhibited.config;
+package com.bootdo.contentprohibited.config;
 
-import com.bootdo.contentProhibited.service.ProhibitedService;
+import com.bootdo.contentprohibited.service.ProhibitedService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -18,7 +18,7 @@ public class ProhibitedRunner implements ApplicationRunner {
 	private ProhibitedService prohibitedService;
 
 	@Override
-	public void run(ApplicationArguments applicationArguments) throws Exception {
+	public void run(ApplicationArguments applicationArguments) {
 		prohibitedService.refreshProhibitedList();
 	}
 

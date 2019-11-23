@@ -8,39 +8,44 @@
         <div class="ibox">
             <div class="ibox-body">
 
-                <section class="panel">
-                    <div class="panel-body collapse in">
-                        <form action="" id="bbsform">
-                            <div class="row">
-                                <div class="form-group col-sm-6 col-lg-4">
-                                    <label class="col-sm-5 col-lg-4 control-label">违禁词</label>
-                                    <div class="col-sm-7 col-lg-8">
-                                        <input class="form-control " id="code" maxlength="60" name="code" type="text"/>
-                                    </div>
-                                </div>
+                <!--                <section class="panel">-->
+                <!--                    <div class="panel-body collapse in">-->
+                <!--                        <form action="" id="bbsform">-->
+                <!--                            <div class="row">-->
+                <!--                                <div class="form-group col-sm-6 col-lg-4">-->
+                <!--                                    <label class="col-sm-5 col-lg-4 control-label">违禁词</label>-->
+                <!--                                    <div class="col-sm-7 col-lg-8">-->
+                <!--                                        <input class="form-control " id="code" maxlength="60" name="code" type="text"/>-->
+                <!--                                    </div>-->
+                <!--                                </div>-->
 
-                            </div>
-                            <div class="row">
-                                <div class="btn-group pull-right">
-                                    <div class="col-sm-12">
-                                        <button class="btn btn-primary" id="queryBtn" type="button">查询</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </section>
+                <!--                            </div>-->
+                <!--                            <div class="row">-->
+                <!--                                <div class="btn-group pull-right">-->
+                <!--                                    <div class="col-sm-12">-->
+                <!--                                        <button class="btn btn-primary" id="queryBtn" type="button">查询</button>-->
+                <!--                                    </div>-->
+                <!--                                </div>-->
+                <!--                            </div>-->
+                <!--                        </form>-->
+                <!--                    </div>-->
+                <!--                </section>-->
 
                 <div class="fixed-table-toolbar">
                     <div class="columns pull-left">
-                        <button class="btn  btn-primary" onclick="add()"
-                                type="button">
+                        <button class="btn  btn-primary" onclick="add()" type="button">
                             <i aria-hidden="true" class="fa fa-plus"></i>添加
                         </button>
-                        <button class="btn  btn-danger" onclick="batchRemove()"
-                                type="button">
+                        <button class="btn  btn-danger" onclick="batchRemove()" type="button">
                             <i aria-hidden="true" class="fa fa-trash"></i>删除
                         </button>
+                    </div>
+
+                    <div class="columns pull-right">
+                        <button class="btn btn-success" onclick="reLoad()">查询</button>
+                    </div>
+                    <div class="columns pull-right col-md-2 nopadding">
+                        <input class="form-control" id="code" placeholder="输入要查询的敏感词" type="text">
                     </div>
 
                 </div>

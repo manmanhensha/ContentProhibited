@@ -39,6 +39,10 @@ function query() {
     }
 }
 
+function resetBtn() {
+    $("#content").val("");
+}
+
 function validateRule() {
     var icon = "<i class='fa fa-times-circle'></i> ";
     $("#content").validate({

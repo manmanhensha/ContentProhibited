@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.bootdo.contentProhibited.dao.ExtProhibitedDao">
+<mapper namespace="com.bootdo.contentprohibited.dao.ExtProhibitedDao">
 
     <insert id="batchInsert" parameterType="java.util.List">
         insert into b_prohibited (prohibited_id, code, created_time, created_by) values

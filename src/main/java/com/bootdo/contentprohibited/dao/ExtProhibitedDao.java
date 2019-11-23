@@ -1,7 +1,7 @@
-package com.bootdo.contentProhibited.dao;
+package com.bootdo.contentprohibited.dao;
 
 
-import com.bootdo.contentProhibited.domain.ProhibitedEntity;
+import com.bootdo.contentprohibited.domain.ProhibitedEntity;
 
 import java.util.List;
 

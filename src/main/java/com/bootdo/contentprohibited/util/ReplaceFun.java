@@ -1,4 +1,4 @@
-package com.bootdo.contentProhibited.util;
+package com.bootdo.contentprohibited.util;
 
 import cn.hutool.core.lang.func.Func1;
 

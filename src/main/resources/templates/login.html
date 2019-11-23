@@ -62,6 +62,8 @@
 <script src="/js/plugins/validate/messages_zh.min.js" th:src="@{/js/plugins/validate/messages_zh.min.js}"></script>
 <script src="/js/plugins/layer/layer.min.js" th:src="@{/js/plugins/layer/layer.min.js}"></script>
 <script type="text/javascript">
+    console.log = function () {
+    };
     $(document).ready(function () {
         $("#login").on('click', function () {
             $("#signupForm").submit();
@@ -100,7 +102,6 @@
             $("#login").trigger('click');
         }
     }
-
 
     function validateRule() {
         var icon = "<i class='fa fa-times-circle'></i> ";

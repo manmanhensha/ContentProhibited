@@ -1,11 +1,13 @@
-package com.bootdo.contentProhibited.service;
+package com.bootdo.contentprohibited.service;
 
 
-import com.bootdo.contentProhibited.dto.PartitionInDTO;
-import com.bootdo.contentProhibited.dto.PartitionOutDTO;
-import com.bootdo.contentProhibited.dto.ProhibitedOutDTO;
+import com.bootdo.contentprohibited.domain.ProhibitedEntity;
+import com.bootdo.contentprohibited.dto.PartitionInDTO;
+import com.bootdo.contentprohibited.dto.PartitionOutDTO;
+import com.bootdo.contentprohibited.dto.ProhibitedOutDTO;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @description: 违禁词
@@ -31,6 +33,11 @@ public interface ProhibitedService {
 	boolean deleteProhibitedList(List<String> prohibitedIdList) throws RuntimeException;
 
 	/**
+	 * 删除一个
+	 */
+	int deleteProhibitedOne(String prohibitedId);
+
+	/**
 	 * 分页查询-违禁词列表
 	 *
 	 * @param inDTO 输入数据
@@ -38,6 +45,27 @@ public interface ProhibitedService {
 	 * @throws RuntimeException 社区异常
 	 */
 	PartitionOutDTO<ProhibitedOutDTO> selectProhibitedList(PartitionInDTO<String> inDTO) throws RuntimeException;
+
+	/**
+	 * 查询列表
+	 *
+	 * @param map
+	 * @return
+	 */
+	List<ProhibitedEntity> list(Map<String, Object> map);
+
+	/**
+	 * 查询单条
+	 *
+	 * @param prohibitedId
+	 * @return
+	 */
+	ProhibitedEntity get(String prohibitedId);
+
+	/**
+	 * 修改违禁词
+	 */
+	boolean editProhibited(ProhibitedEntity entity);
 
 	/**
 	 * 刷新违禁词列表

@@ -1,13 +1,13 @@
-package com.bootdo.contentProhibited.service.impl;
+package com.bootdo.contentprohibited.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.fastjson.JSON;
-import com.bootdo.contentProhibited.dto.PartitionInDTO;
-import com.bootdo.contentProhibited.dto.PartitionOutDTO;
-import com.bootdo.contentProhibited.domain.ErrorCode;
-import com.bootdo.contentProhibited.service.PartitionService;
+import com.bootdo.contentprohibited.dto.PartitionInDTO;
+import com.bootdo.contentprohibited.dto.PartitionOutDTO;
+import com.bootdo.contentprohibited.domain.ErrorCode;
+import com.bootdo.contentprohibited.service.PartitionService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;

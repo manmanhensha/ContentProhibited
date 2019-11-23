@@ -1,9 +1,9 @@
-package com.bootdo.contentProhibited.controller;
+package com.bootdo.contentprohibited.controller;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.bootdo.common.utils.R;
-import com.bootdo.contentProhibited.service.ProhibitedService;
+import com.bootdo.contentprohibited.service.ProhibitedService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

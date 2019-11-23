@@ -1,4 +1,4 @@
-package com.bootdo.contentProhibited.util;
+package com.bootdo.contentprohibited.util;
 
 import tk.mybatis.mapper.common.IdsMapper;
 import tk.mybatis.mapper.common.Mapper;

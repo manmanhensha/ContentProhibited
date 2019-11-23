@@ -1,8 +1,8 @@
-package com.bootdo.contentProhibited.service;
+package com.bootdo.contentprohibited.service;
 
 
-import com.bootdo.contentProhibited.dto.PartitionInDTO;
-import com.bootdo.contentProhibited.dto.PartitionOutDTO;
+import com.bootdo.contentprohibited.dto.PartitionInDTO;
+import com.bootdo.contentprohibited.dto.PartitionOutDTO;
 
 import java.util.List;
 

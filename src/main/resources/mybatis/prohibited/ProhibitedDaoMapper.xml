@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.bootdo.contentProhibited.dao.ProhibitedDao">
-    <resultMap id="BaseResultMap" type="com.bootdo.contentProhibited.domain.ProhibitedEntity">
+<mapper namespace="com.bootdo.contentprohibited.dao.ProhibitedDao">
+    <resultMap id="BaseResultMap" type="com.bootdo.contentprohibited.domain.ProhibitedEntity">
         <!--
           WARNING - @mbg.generated
         -->

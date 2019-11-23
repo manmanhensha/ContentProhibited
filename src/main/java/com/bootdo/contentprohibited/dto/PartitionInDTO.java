@@ -1,4 +1,4 @@
-package com.bootdo.contentProhibited.dto;
+package com.bootdo.contentprohibited.dto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

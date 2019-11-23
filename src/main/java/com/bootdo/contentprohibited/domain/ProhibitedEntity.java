@@ -1,4 +1,4 @@
-package com.bootdo.contentProhibited.domain;
+package com.bootdo.contentprohibited.domain;
 
 import lombok.Data;
 

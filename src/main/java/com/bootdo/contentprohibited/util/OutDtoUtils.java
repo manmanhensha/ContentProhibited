@@ -1,9 +1,9 @@
-package com.bootdo.contentProhibited.util;
+package com.bootdo.contentprohibited.util;
 
 
 import cn.hutool.core.util.StrUtil;
 import com.bootdo.common.utils.R;
-import com.bootdo.contentProhibited.dto.BaseOutDTO;
+import com.bootdo.contentprohibited.dto.BaseOutDTO;
 
 /**
  * @description:

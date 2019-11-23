@@ -1,4 +1,4 @@
-package com.bootdo.contentProhibited.service.impl;
+package com.bootdo.contentprohibited.service.impl;
 
 
 import cn.hutool.dfa.WordTree;

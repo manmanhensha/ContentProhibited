@@ -1,17 +1,17 @@
-package com.bootdo.contentProhibited.service.impl;
+package com.bootdo.contentprohibited.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.ObjectUtil;
 import com.bootdo.common.utils.ShiroUtils;
-import com.bootdo.contentProhibited.dao.ExtProhibitedDao;
-import com.bootdo.contentProhibited.dao.ProhibitedDao;
-import com.bootdo.contentProhibited.domain.ErrorCode;
-import com.bootdo.contentProhibited.domain.ProhibitedEntity;
-import com.bootdo.contentProhibited.dto.PartitionInDTO;
-import com.bootdo.contentProhibited.dto.PartitionOutDTO;
-import com.bootdo.contentProhibited.dto.ProhibitedOutDTO;
-import com.bootdo.contentProhibited.service.PartitionService;
-import com.bootdo.contentProhibited.service.ProhibitedService;
+import com.bootdo.contentprohibited.dao.ProhibitedDao;
+import com.bootdo.contentprohibited.domain.ErrorCode;
+import com.bootdo.contentprohibited.domain.ProhibitedEntity;
+import com.bootdo.contentprohibited.dto.PartitionInDTO;
+import com.bootdo.contentprohibited.dto.PartitionOutDTO;
+import com.bootdo.contentprohibited.dto.ProhibitedOutDTO;
+import com.bootdo.contentprohibited.service.PartitionService;
+import com.bootdo.contentprohibited.service.ProhibitedService;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -22,6 +22,7 @@ import tk.mybatis.mapper.entity.Example;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -33,9 +34,6 @@ public class ProhibitedServiceImpl implements ProhibitedService {
 
 	@Autowired
 	private ProhibitedDao prohibitedDao;
-
-	@Autowired
-	private ExtProhibitedDao extProhibitedDao;
 
 	@Autowired
 	private PartitionService partitionService;
@@ -59,7 +57,7 @@ public class ProhibitedServiceImpl implements ProhibitedService {
 		List<ProhibitedEntity> existCodes = prohibitedDao.selectByExample(example);
 		if (CollectionUtil.isNotEmpty(existCodes)) {
 			log.error("违禁词已存在:{} {}", ErrorCode.PROHIBITED_0003,
-					existCodes.stream().map(it -> it.getCode()).collect(Collectors.joining(",")));
+					existCodes.stream().map(ProhibitedEntity::getCode).collect(Collectors.joining(",")));
 			// 违禁词已存在
 			throw new RuntimeException();
 		}
@@ -68,7 +66,7 @@ public class ProhibitedServiceImpl implements ProhibitedService {
 		prohibitedList.forEach(it -> {
 			final ProhibitedEntity insertEntity = new ProhibitedEntity();
 			insertEntity.setCode(it);
-			insertEntity.setCreatedBy(ShiroUtils.getUser().getUsername());
+			insertEntity.setCreatedBy(ShiroUtils.getUser().getName());
 			insertEntity.setCreatedTime(new Date());
 			list.add(insertEntity);
 		});
@@ -99,10 +97,18 @@ public class ProhibitedServiceImpl implements ProhibitedService {
 		deleteExample.createCriteria().andIn("prohibitedId", prohibitedIdList);
 		if (prohibitedDao.deleteByExample(deleteExample) > 0) {
 			// 删除违禁词
-			ProhibitedHelper.getInstance().removeWordList(selectList.stream().map(it -> it.getCode()).collect(Collectors.toList()));
+			ProhibitedHelper.getInstance().removeWordList(selectList.stream().map(ProhibitedEntity::getCode).collect(Collectors.toList()));
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public int deleteProhibitedOne(String prohibitedId) {
+		final Example example = new Example(ProhibitedEntity.class);
+		example.createCriteria().andEqualTo("prohibitedId", prohibitedId);
+
+		return prohibitedDao.deleteByExample(example);
 	}
 
 	/**
@@ -134,6 +140,37 @@ public class ProhibitedServiceImpl implements ProhibitedService {
 		});
 	}
 
+	@Override
+	public List<ProhibitedEntity> list(Map<String, Object> map) {
+		final Example example = new Example(ProhibitedEntity.class);
+		if (ObjectUtil.isNotEmpty(map.get("code"))) {
+			example.createCriteria().andLike("code", "%" + map.get("code") + "%");
+			return prohibitedDao.selectByExample(example);
+		} else {
+			return prohibitedDao.selectAll();
+		}
+
+	}
+
+	@Override
+	public ProhibitedEntity get(String prohibitedId) {
+		final Example example = new Example(ProhibitedEntity.class);
+		example.createCriteria().andEqualTo("prohibitedId", prohibitedId);
+
+		return prohibitedDao.selectOneByExample(example);
+	}
+
+	@Override
+	public boolean editProhibited(ProhibitedEntity entity) {
+		Example example = new Example(ProhibitedEntity.class);
+		example.createCriteria().andEqualTo("prohibitedId", entity.getProhibitedId());
+
+		entity.setUpdatedTime(new Date());
+		entity.setUpdatedBy(ShiroUtils.getUser().getName());
+
+		return prohibitedDao.updateByExampleSelective(entity, example) == 1;
+	}
+
 	/**
 	 * 刷新违禁词列表
 	 *
@@ -142,7 +179,9 @@ public class ProhibitedServiceImpl implements ProhibitedService {
 	 */
 	@Override
 	public void refreshProhibitedList() throws RuntimeException {
-		ProhibitedHelper.getInstance().addWords(prohibitedDao.selectAll().stream().distinct().map(it -> it.getCode()).collect(Collectors.toList()));
+		ProhibitedHelper.getInstance()
+				.addWords(prohibitedDao.selectAll().stream().distinct()
+						.map(ProhibitedEntity::getCode).collect(Collectors.toList()));
 		log.warn("违禁词列表:{}", ProhibitedHelper.getInstance().getAll());
 	}
 

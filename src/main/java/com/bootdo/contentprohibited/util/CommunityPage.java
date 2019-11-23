@@ -1,9 +1,9 @@
-package com.bootdo.contentProhibited.util;
+package com.bootdo.contentprohibited.util;
 
 
 import com.bootdo.common.utils.PageUtils;
-import com.bootdo.contentProhibited.dto.BaseOutDTO;
-import com.bootdo.contentProhibited.dto.PartitionOutDTO;
+import com.bootdo.contentprohibited.dto.BaseOutDTO;
+import com.bootdo.contentprohibited.dto.PartitionOutDTO;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

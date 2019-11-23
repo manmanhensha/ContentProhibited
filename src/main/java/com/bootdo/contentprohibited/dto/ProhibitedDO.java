@@ -1,4 +1,4 @@
-package com.bootdo.contentProhibited.dto;
+package com.bootdo.contentprohibited.dto;
 
 import java.io.Serializable;
 

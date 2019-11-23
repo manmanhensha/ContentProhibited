@@ -1,22 +1,20 @@
-package com.bootdo.contentProhibited.controller;
+package com.bootdo.contentprohibited.controller;
 
 import com.bootdo.common.utils.PageUtils;
+import com.bootdo.common.utils.Query;
 import com.bootdo.common.utils.R;
-import com.bootdo.contentProhibited.dto.PartitionInDTO;
-import com.bootdo.contentProhibited.dto.PartitionOutDTO;
-import com.bootdo.contentProhibited.dto.ProhibitedDO;
-import com.bootdo.contentProhibited.dto.ProhibitedOutDTO;
-import com.bootdo.contentProhibited.service.ProhibitedService;
-import com.bootdo.contentProhibited.util.CommunityPage;
+import com.bootdo.contentprohibited.domain.ProhibitedEntity;
+import com.bootdo.contentprohibited.dto.ProhibitedDO;
+import com.bootdo.contentprohibited.service.ProhibitedService;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * 违禁词表
@@ -42,25 +40,16 @@ public class ProhibitedController {
 	@GetMapping("/list")
 	public PageUtils list(@RequestParam Map<String, Object> params) {
 		//查询列表数据
-		CommunityPage query = CommunityPage.newInstance(params);
+		Query query = new Query(params);
 
-		String code = "";
-		if (Objects.nonNull(params.get("code"))) {
-			code = params.get("code").toString();
-		}
-		PartitionInDTO<String> inDTO = new PartitionInDTO<>();
-		inDTO.setPageNum(query.getPageNum());
-		inDTO.setPageSize(query.getLimit());
-		inDTO.setInDTO(code);
-		PartitionOutDTO<ProhibitedOutDTO> outDTO = service.selectProhibitedList(inDTO);
-		return CommunityPage.getPageUtils(outDTO);
+		List<ProhibitedEntity> prohibitedList = service.list(query);
+		return new PageUtils(prohibitedList, prohibitedList.size());
 	}
 
 	@GetMapping("/add")
 	String add() {
 		return "community/prohibited/add";
 	}
-
 
 	/**
 	 * 保存
@@ -81,19 +70,48 @@ public class ProhibitedController {
 		} else {
 			return R.error("未填写违禁词");
 		}
+	}
 
+	@GetMapping("/edit/{prohibitedId}")
+	String edit(@PathVariable("prohibitedId") String prohibitedId, Model model) {
+		ProhibitedEntity prohibited = service.get(prohibitedId);
+		model.addAttribute("prohibited", prohibited);
+
+		return "community/prohibited/edit";
 	}
 
 	/**
-	 * 删除
+	 * 修改
+	 */
+	@ResponseBody
+	@PostMapping("/update")
+	public R update(ProhibitedEntity prohibited) {
+
+		service.editProhibited(prohibited);
+		return R.ok();
+	}
+
+	/**
+	 * 单个删除
+	 */
+	@PostMapping("/remove")
+	@ResponseBody
+	public R remove(String prohibitedId) {
+		if (service.deleteProhibitedOne(prohibitedId) > 0) {
+			return R.ok();
+		}
+		return R.error();
+	}
+
+	/**
+	 * 批量删除
 	 */
 	@PostMapping("/batchRemove")
 	@ResponseBody
 	public R remove(@RequestParam("ids[]") String[] prohibitedIds) {
 		if (prohibitedIds != null && prohibitedIds.length > 0) {
 			List<String> plist = Lists.newArrayList(prohibitedIds);
-			boolean outDTO = service.insertProhibitedList(plist);
-			if (outDTO) {
+			if (service.deleteProhibitedList(plist)) {
 				return R.ok();
 			} else {
 				return R.error();
@@ -109,6 +127,7 @@ public class ProhibitedController {
 	 * @return
 	 */
 	@GetMapping(value = "refreshProhibitedList")
+	@ResponseBody
 	public R refreshProhibitedList() {
 		try {
 			service.refreshProhibitedList();
