@@ -177,6 +177,21 @@ function remove(id) {
 function resetPwd(id) {
 }
 
+function refreshProhibited() {
+    $.ajax({
+        url: prefix + "/refreshProhibitedList",
+        type: "get",
+        success: function (r) {
+            if (r.code == 0) {
+                layer.msg(r.msg);
+                reLoad();
+            } else {
+                layer.msg(r.msg);
+            }
+        }
+    });
+}
+
 function batchRemove() {
     var rows = $('#exampleTable').bootstrapTable('getSelections'); // 返回所有选择的行，当没有选择的记录时，返回一个空数组
     if (rows.length == 0) {
