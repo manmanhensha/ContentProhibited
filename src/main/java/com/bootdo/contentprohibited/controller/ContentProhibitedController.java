@@ -50,7 +50,7 @@ public class ContentProhibitedController {
 			HashMap<String, Object> map = new HashMap<>(12);
 			map.put("keywords", collect);
 			map.put("content", content);
-			log.warn("耗时 : " + (System.currentTimeMillis() - startTime));
+			log.warn("耗时 : " + (System.currentTimeMillis() - startTime) + " 毫秒");
 
 			return R.ok(map);
 		} else {

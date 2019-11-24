@@ -1,15 +1,13 @@
 package com.bootdo.common.aspect;
 
-import java.lang.reflect.Method;
-import java.util.Date;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-
-import javax.servlet.http.HttpServletRequest;
-
+import com.bootdo.common.annotation.Log;
+import com.bootdo.common.domain.LogDO;
 import com.bootdo.common.service.LogService;
-import com.bootdo.system.domain.UserToken;
+import com.bootdo.common.utils.HttpContextUtils;
+import com.bootdo.common.utils.IPUtils;
+import com.bootdo.common.utils.JSONUtils;
+import com.bootdo.common.utils.ShiroUtils;
+import com.bootdo.system.domain.UserDO;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -18,17 +16,11 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
-import com.bootdo.common.annotation.Log;
-import com.bootdo.common.dao.LogDao;
-import com.bootdo.common.domain.LogDO;
-import com.bootdo.common.utils.HttpContextUtils;
-import com.bootdo.common.utils.IPUtils;
-import com.bootdo.common.utils.JSONUtils;
-import com.bootdo.common.utils.ShiroUtils;
-import com.bootdo.system.domain.UserDO;
+import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Method;
+import java.util.Date;
 
 @Aspect
 @Component
@@ -79,7 +71,7 @@ public class LogAspect {
         // 获取request
         HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
         // 设置IP地址
-        sysLog.setIp(IPUtils.getIpAddr(request));
+		sysLog.setIp(IPUtils.getIpFromRequest(request));
         // 用户名
         UserDO currUser = ShiroUtils.getUser();
         if (null == currUser) {
