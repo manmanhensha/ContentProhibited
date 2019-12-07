@@ -1,5 +1,7 @@
 package com.bootdo.contentprohibited.controller;
 
+import cn.hutool.bloomfilter.BitSetBloomFilter;
+import cn.hutool.bloomfilter.BloomFilterUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.bootdo.common.utils.R;
@@ -58,4 +60,51 @@ public class ContentProhibitedController {
 		}
 	}
 
+	public static void main(String[] args) {
+		// 布隆过滤java实现
+		BitSetBloomFilter bitSet = BloomFilterUtil.createBitSet(1000000, 500000, 45);
+		long current = System.currentTimeMillis();
+		for (int i = 0; i < 1000000; i++) {
+			bitSet.add("" + i);
+		}
+
+		int count = 0;
+		for (int i = 1000000; i < 2000000; i++) {
+			if (bitSet.contains(String.valueOf(i))) {
+				count++;
+				System.out.println(i + " 误判了");
+			}
+		}
+		System.out.println(bitSet.getFalsePositiveProbability());
+		System.err.println("有" + count + "个误判了！经过 " + (System.currentTimeMillis() - current) + "ms");
+
+	}
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
