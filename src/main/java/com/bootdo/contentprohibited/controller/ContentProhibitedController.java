@@ -31,6 +31,7 @@ public class ContentProhibitedController {
 
 	@GetMapping()
 	String a() {
+		// 返回页面地址
 		return "community/contentProhibited/content";
 	}
 
