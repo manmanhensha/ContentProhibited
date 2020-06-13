@@ -8,8 +8,8 @@
     <version>1.0.0</version>
     <packaging>jar</packaging>
 
-    <name>weekly</name>
-    <description>Weekly project for Spring Boot</description>
+    <name>ContentProhibited</name>
+    <description>ContentProhibited project for Spring Boot</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -31,6 +31,23 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson-spring-boot-starter</artifactId>
+            <version>3.11.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.redisson</groupId>
+                    <artifactId>redisson-spring-data-21</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson-spring-data-20</artifactId>
+            <version>3.11.1</version>
         </dependency>
 
         <dependency>

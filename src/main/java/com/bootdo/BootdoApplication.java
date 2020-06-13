@@ -1,10 +1,12 @@
 package com.bootdo;
 
+import com.bootdo.reserve_functions.IdWorker;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.context.annotation.Bean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import tk.mybatis.spring.annotation.MapperScan;
 
@@ -27,4 +29,10 @@ public class BootdoApplication {
                 " _| |__) || \\__. || \\__. || |, _| |_.' /| \\__. | \n" +
                 "|_______/  '.__.'  '.__.' \\__/|______.'  '.__.'  ");
     }
+
+    @Bean
+    public IdWorker idWorker() {
+        return new IdWorker(19, 21);
+    }
+
 }
