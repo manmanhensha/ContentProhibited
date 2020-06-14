@@ -8,7 +8,7 @@ import java.nio.charset.Charset;
 
 /**
  * 重写序列化器
- *
+ * Redis中对对象进行序列化操作
  * @author /
  */
 public class StringRedisSerializer implements RedisSerializer<Object> {
