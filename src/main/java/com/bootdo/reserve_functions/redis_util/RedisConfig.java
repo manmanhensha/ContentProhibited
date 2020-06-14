@@ -23,6 +23,7 @@ import java.time.Duration;
 /**
  * @author Zheng Jie
  * @date 2018-11-24
+ * redis配置ehcache开源插件
  */
 @Slf4j
 @Configuration

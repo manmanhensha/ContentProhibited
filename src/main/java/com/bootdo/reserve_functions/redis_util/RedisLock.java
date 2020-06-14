@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author wushiqiang
  * @date Created in 17:38 2019/6/23
- * @description
+ * @description redis实现并发控制的俩种方式
  * @modified By
  */
 @Component
@@ -29,9 +29,9 @@ public class RedisLock {
 	 * 加分布式锁  利用Redis中setNX  getSet
 	 * 如果加锁不成功直接抛出异常 使用: RedisLock.lock(productId, 当前时间+超时时间(10秒))
 	 *
-	 * @param key   订单id
+	 * @param key   商品id
 	 * @param value 当前时间+超时时间
-	 * @return
+	 * @return 是否成功加锁
 	 */
 	public boolean lock(String key, String value) {
 		if (redisTemplate.opsForValue().setIfAbsent(key, value)) {
@@ -58,8 +58,8 @@ public class RedisLock {
 	 * 解除redis锁
 	 * 在扣除库存之后,在进行解锁操作
 	 *
-	 * @param key
-	 * @param value
+	 * @param key 商品id
+	 * @param value 当前时间+超时时间
 	 */
 	public void unLock(String key, String value) {
 		try {
@@ -75,10 +75,10 @@ public class RedisLock {
 
 	/**
 	 * 向Redis中设置aid 的过期时间
-	 *
-	 * @param token
-	 * @param aid
-	 * @return
+	 * @param token 登录生成token
+	 * @param aid 用户aid
+	 * @param productId 商品id
+	 * @return 是否设置成功
 	 */
 	public boolean setRedisExp(String token, String aid, int productId) {
 		// 根据用户aid和商品id获取唯一对象，如果该对象set了值，则此对象存在。
