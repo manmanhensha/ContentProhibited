@@ -1,59 +1,115 @@
 package com.bootdo.reserve_functions.web_log;
 
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.util.URLUtil;
 import cn.hutool.json.JSONUtil;
-import lombok.extern.slf4j.Slf4j;
+import io.swagger.annotations.ApiOperation;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.*;
+import org.aspectj.lang.reflect.MethodSignature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
+import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+/**
+ * 统一日志处理切面
+ * Created by macro on 2018/4/26.
+ */
 @Aspect
 @Component
-@Slf4j
+@Order(1)
 public class WebLogAspect {
+    private static final Logger LOGGER = LoggerFactory.getLogger(WebLogAspect.class);
 
-    //两个..代表所有子目录，最后括号里的两个..代表所有参数
-    @Pointcut("execution( * com.bootdo..controller.*.*(..))")
-    public void logPointCut() {
+    @Pointcut("execution(public * com.macro.mall.tiny.controller.*.*(..))")
+    public void webLog() {
     }
 
-    @Before("logPointCut()")
-    public void doBefore(JoinPoint joinPoint) {
-        // 接收到请求，记录请求内容
-        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        assert attributes != null;
-        HttpServletRequest request = attributes.getRequest();
+    @Before("webLog()")
+    public void doBefore(JoinPoint joinPoint) throws Throwable {
+    }
 
-        // 记录下请求内容
-        log.info("请求地址 : " + request.getRequestURL().toString());
-        log.info("HTTP 请求方式 : " + request.getMethod());
-        log.info("CLASS 方法 : " + joinPoint.getSignature().getDeclaringTypeName() + "."
-                + joinPoint.getSignature().getName());
-        log.info("参数 : " + Arrays.toString(joinPoint.getArgs()));
+    @AfterReturning(value = "webLog()", returning = "ret")
+    public void doAfterReturning(Object ret) throws Throwable {
+    }
+
+    @Around("webLog()")
+    public Object doAround(ProceedingJoinPoint joinPoint) throws Throwable {
+        long startTime = System.currentTimeMillis();
+        //获取当前请求对象
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        HttpServletRequest request = attributes.getRequest();
+        //记录请求信息
+        WebLog webLog = new WebLog();
+        Object result = joinPoint.proceed();
+        Signature signature = joinPoint.getSignature();
+        MethodSignature methodSignature = (MethodSignature) signature;
+        Method method = methodSignature.getMethod();
+        if (method.isAnnotationPresent(ApiOperation.class)) {
+            ApiOperation apiOperation = method.getAnnotation(ApiOperation.class);
+            webLog.setDescription(apiOperation.value());
+        }
+        long endTime = System.currentTimeMillis();
+        String urlStr = request.getRequestURL().toString();
+        webLog.setBasePath(StrUtil.removeSuffix(urlStr, URLUtil.url(urlStr).getPath()));
+        webLog.setIp(request.getRemoteUser());
+        webLog.setMethod(request.getMethod());
+        webLog.setParameter(getParameter(method, joinPoint.getArgs()));
+        webLog.setResult(result);
+        webLog.setSpendTime((int) (endTime - startTime));
+        webLog.setStartTime(startTime);
+        webLog.setUri(request.getRequestURI());
+        webLog.setUrl(request.getRequestURL().toString());
+        LOGGER.info("{}", JSONUtil.parse(webLog));
+        return result;
     }
 
     /**
-     * returning的值和doAfterReturning的参数名一致
-     *
-     * @param ret
+     * 根据方法和传入的参数获取请求参数
      */
-    @AfterReturning(returning = "ret", pointcut = "logPointCut()")
-    public void doAfterReturning(Object ret) {
-        // 处理完请求，返回内容(返回值太复杂时，打印的是物理存储空间的地址)
-		log.debug("返回值 : " + JSONUtil.toJsonStr(ret));
-    }
-
-    @Around("logPointCut()")
-    public Object doAround(ProceedingJoinPoint pjp) throws Throwable {
-        long startTime = System.currentTimeMillis();
-        // ob 为方法的返回值
-        Object ob = pjp.proceed();
-        log.info("耗时 : " + (System.currentTimeMillis() - startTime));
-        return ob;
+    private Object getParameter(Method method, Object[] args) {
+        List<Object> argList = new ArrayList<>();
+        Parameter[] parameters = method.getParameters();
+        for (int i = 0; i < parameters.length; i++) {
+            //将RequestBody注解修饰的参数作为请求参数
+            RequestBody requestBody = parameters[i].getAnnotation(RequestBody.class);
+            if (requestBody != null) {
+                argList.add(args[i]);
+            }
+            //将RequestParam注解修饰的参数作为请求参数
+            RequestParam requestParam = parameters[i].getAnnotation(RequestParam.class);
+            if (requestParam != null) {
+                Map<String, Object> map = new HashMap<>();
+                String key = parameters[i].getName();
+                if (!StringUtils.isEmpty(requestParam.value())) {
+                    key = requestParam.value();
+                }
+                map.put(key, args[i]);
+                argList.add(map);
+            }
+        }
+        if (argList.size() == 0) {
+            return null;
+        } else if (argList.size() == 1) {
+            return argList.get(0);
+        } else {
+            return argList;
+        }
     }
 }
