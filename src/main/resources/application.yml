@@ -19,13 +19,15 @@ spring:
   profiles: 
     active: dev
   datasource:
-    type: com.alibaba.druid.pool.DruidDataSource
-    driver-class-name: com.mysql.jdbc.Driver
     master:
+      type: com.alibaba.druid.pool.DruidDataSource
+      driver-class-name: com.mysql.jdbc.Driver
       url: jdbc:mysql://127.0.0.1:3306/user?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false&useSSL=false&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
       username: root
       password: root
     slave:
+      type: com.alibaba.druid.pool.DruidDataSource
+      driver-class-name: com.mysql.jdbc.Driver
       url: jdbc:mysql://127.0.0.1:3307/user?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false&useSSL=false&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
       username: root
       password: root
@@ -49,3 +51,4 @@ mapper:
   mappers: com.bootdo.contentprohibited.util.CommunityDao
 #[弃用]配置缓存和session存储方式，默认ehcache,可选redis,[弃用]调整至 spring cache type【shiro.用户，权限，session，spring.cache通用】
 #[弃用]cacheType: ehcache
+
