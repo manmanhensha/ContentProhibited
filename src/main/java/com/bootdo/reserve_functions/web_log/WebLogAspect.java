@@ -51,32 +51,34 @@ public class WebLogAspect {
 	private static String getParamValue(JoinPoint joinPoint) {
 		StringBuilder sb = new StringBuilder();
 		//获取所有的参数
-		Object[] args = joinPoint.getArgs();
-		for (Object arg : args) {
-//          2 通过反射获取实体类属性
-			sb.append(getFieldsValue(arg));
+		try {
+			Object[] args = joinPoint.getArgs();
+			for (Object arg : args) {
+				//          2 通过反射获取实体类属性
+				sb.append(getFieldsValue(arg));
+			}
+		} catch (Exception e) {
+			return "";
 		}
 		return String.valueOf(sb);
 	}
 
 	private static String getFieldsValue(Object obj) {
 		//通过反射获取所有的字段，getFileds()获取public的修饰的字段
-		Field[] fields = obj.getClass().getDeclaredFields();
 		StringBuilder sb = new StringBuilder();
 		sb.append("{");
-		for (Field f : fields) {
-			//在反射时能访问私有变量
-			f.setAccessible(true);
-			try {
+		try {
+			Field[] fields = obj.getClass().getDeclaredFields();
+			for (Field f : fields) {
 				sb.append("\"").append(f.getName()).append("\"").append(":");
 				if (ObjectUtil.isNotNull(f.get(obj))) {
 					sb.append("\"").append(f.get(obj)).append("\"").append(",");
 				} else {
 					sb.append(f.get(obj)).append(",");
 				}
-			} catch (IllegalArgumentException | IllegalAccessException e) {
-				e.printStackTrace();
 			}
+		} catch (Exception e) {
+			log.info("获取字段为空");
 		}
 		return sb.toString();
 	}
@@ -129,9 +131,9 @@ public class WebLogAspect {
 		log.info("CLASS 方法 : " + joinPoint.getSignature().getDeclaringTypeName() + "."
 				+ joinPoint.getSignature().getName());
 		String paramValue = getParamValue(joinPoint);
-		String[] realFieldsName = getFieldsName(joinPoint);
 		if (StrUtil.isNotBlank(paramValue) && !"{".equals(paramValue)) {
 			try {
+				String[] realFieldsName = getFieldsName(joinPoint);
 				String s = StrUtil.subWithLength(paramValue, 0, paramValue.length() - 1) + "}";
 				Map<String, Object> objectMap = BeanUtil.beanToMap(JSONUtil.parseObj(s), false, true);
 				StringBuilder fieldsName = new StringBuilder();
@@ -165,4 +167,39 @@ public class WebLogAspect {
 		return ob;
 	}
 
+	/**
+	 * 根据方法和传入的参数获取请求参数,依靠RequestBody和RequestParam注解实现
+	 */
+	private Object getParameter(Method method, Object[] args) {
+		List<Object> argList = new ArrayList<>();
+		Parameter[] parameters = method.getParameters();
+		for (int i = 0; i < parameters.length; i++) {
+			//将RequestBody注解修饰的参数作为请求参数
+			RequestBody requestBody = parameters[i].getAnnotation(RequestBody.class);
+			if (requestBody != null) {
+				argList.add(args[i]);
+			}
+			//将RequestParam注解修饰的参数作为请求参数
+			RequestParam requestParam = parameters[i].getAnnotation(RequestParam.class);
+			if (requestParam != null) {
+				Map<String, Object> map = new HashMap<>();
+				String key = parameters[i].getName();
+				if (!StringUtils.isEmpty(requestParam.value())) {
+					key = requestParam.value();
+				}
+				map.put(key, args[i]);
+				argList.add(map);
+			}
+			if (requestBody == null && requestParam == null) {
+				argList.add(parameters[i].toString());
+			}
+		}
+		if (argList.size() == 0) {
+			return null;
+		} else if (argList.size() == 1) {
+			return argList.get(0);
+		} else {
+			return argList;
+		}
+	}
 }
