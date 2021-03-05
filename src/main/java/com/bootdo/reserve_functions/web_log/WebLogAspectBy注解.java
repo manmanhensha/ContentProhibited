@@ -1,9 +1,6 @@
 package com.bootdo.reserve_functions.web_log;
 
-import cn.hutool.core.util.StrUtil;
-import cn.hutool.core.util.URLUtil;
-import cn.hutool.json.JSONUtil;
-import io.swagger.annotations.ApiOperation;
+import com.alibaba.fastjson.JSON;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
@@ -27,69 +24,50 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * 统一日志处理切面
- * Created by macro on 2018/4/26.
- */
+@Order(1)
 @Aspect
 @Component
-@Order(1)
-public class WebLogAspectElk {
-	private static final Logger LOGGER = LoggerFactory.getLogger(WebLogAspect.class);
+public class WebLogAspectBy注解 {
 
-	@Pointcut("execution(public * com.macro.mall.controller.*.*(..))||execution(public * com.macro.mall.*.controller.*.*(..))")
-	public void webLog() {
+	private static final Logger log = LoggerFactory.getLogger(WebLogAspect.class);
+
+	@Pointcut("execution(* com.scfl.vwebo.voicenewyear.controller..*.*(..))")
+	public void logPointCut() {
 	}
 
-	@Before("webLog()")
-	public void doBefore(JoinPoint joinPoint) throws Throwable {
-	}
-
-	@AfterReturning(value = "webLog()", returning = "ret")
-	public void doAfterReturning(Object ret) throws Throwable {
-	}
-
-	@Around("webLog()")
-	public Object doAround(ProceedingJoinPoint joinPoint) throws Throwable {
-		long startTime = System.currentTimeMillis();
-		//获取当前请求对象
+	@Before("logPointCut()")
+	public void doBefore(JoinPoint joinPoint) {
+		// 接收到请求，记录请求内容
 		ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
 		HttpServletRequest request = attributes.getRequest();
-		//记录请求信息(通过Logstash传入Elasticsearch)
-		WebLog webLog = new WebLog();
-		Object result = joinPoint.proceed();
 		Signature signature = joinPoint.getSignature();
 		MethodSignature methodSignature = (MethodSignature) signature;
 		Method method = methodSignature.getMethod();
-		if (method.isAnnotationPresent(ApiOperation.class)) {
-			ApiOperation log = method.getAnnotation(ApiOperation.class);
-			webLog.setDescription(log.value());
-		}
-		long endTime = System.currentTimeMillis();
-		String urlStr = request.getRequestURL().toString();
-		webLog.setBasePath(StrUtil.removeSuffix(urlStr, URLUtil.url(urlStr).getPath()));
-		webLog.setIp(request.getRemoteUser());
-		webLog.setMethod(request.getMethod());
-		webLog.setParameter(getParameter(method, joinPoint.getArgs()));
-		webLog.setResult(result);
-		webLog.setSpendTime((int) (endTime - startTime));
-		webLog.setStartTime(startTime);
-		webLog.setUri(request.getRequestURI());
-		webLog.setUrl(request.getRequestURL().toString());
-		Map<String, Object> logMap = new HashMap<>();
-		logMap.put("url", webLog.getUrl());
-		logMap.put("method", webLog.getMethod());
-		logMap.put("parameter", webLog.getParameter());
-		logMap.put("spendTime", webLog.getSpendTime());
-		logMap.put("description", webLog.getDescription());
-		LOGGER.info("{}", JSONUtil.parse(webLog));
-//         <dependency>
-//            <groupId>net.logstash.logback</groupId>
-//            <artifactId>logstash-logback-encoder</artifactId>
-//            <version>5.3</version>
-//        </dependency>
-//        LOGGER.info(Markers.appendEntries(logMap), JSONUtil.parse(webLog).toString());
-		return result;
+
+		// 记录下请求内容
+		log.info("请求地址 : " + request.getRequestURL().toString());
+		log.info("HTTP 请求方式 : " + request.getMethod());
+		log.info("CLASS 方法 : " + joinPoint.getSignature().getDeclaringTypeName() + "."
+				+ joinPoint.getSignature().getName());
+		log.info("请求参数: " + getParameter(method, joinPoint.getArgs()));
+	}
+
+	/**
+	 * returning的值和doAfterReturning的参数名一致
+	 */
+	@AfterReturning(returning = "ret", pointcut = "logPointCut()")
+	public void doAfterReturning(Object ret) {
+		// 处理完请求，返回内容(返回值太复杂时，打印的是物理存储空间的地址)
+		log.info("返回值 : " + JSON.toJSONString(ret));
+	}
+
+	@Around("logPointCut()")
+	public Object doAround(ProceedingJoinPoint pjp) throws Throwable {
+		long startTime = System.currentTimeMillis();
+		// ob 为方法的返回值
+		Object ob = pjp.proceed();
+		log.info("耗时 : " + (System.currentTimeMillis() - startTime));
+		return ob;
 	}
 
 	/**
