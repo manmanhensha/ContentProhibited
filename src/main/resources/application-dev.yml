@@ -12,7 +12,7 @@ spring:
     driverClassName: com.mysql.jdbc.Driver
     url: jdbc:mysql://49.233.133.21:3306/prohibited?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
     username: root
-    password: wushiqiang
+    password: ENC(mVTvp4IddqdaYGqPl9lCQbzM3H/b0B6l)
     initialSize: 1
     minIdle: 3
     maxActive: 20
@@ -51,3 +51,8 @@ spring:
         max-active: 100
         # 连接池最大阻塞等待时间（使用负值表示没有限制）
         max-wait: -1
+
+# 加密参数
+jasypt:
+  encryptor:
+    password: 35579B7F9C8CB15E
