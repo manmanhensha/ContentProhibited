@@ -16,8 +16,8 @@ spring:
   jackson:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss
-  profiles: 
-    active: dev
+  profiles:
+    active: prod
   datasource:
     master:
       type: com.alibaba.druid.pool.DruidDataSource
