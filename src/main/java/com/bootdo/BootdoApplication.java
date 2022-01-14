@@ -30,6 +30,9 @@ public class BootdoApplication {
                 "|_______/  '.__.'  '.__.' \\__/|______.'  '.__.'  ");
     }
 
+    /**
+     * 雪花算法
+     */
     @Bean
     public IdWorker idWorker() {
         return new IdWorker(19, 21);
