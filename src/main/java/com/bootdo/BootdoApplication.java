@@ -35,7 +35,7 @@ public class BootdoApplication {
      */
     @Bean
     public IdWorker idWorker() {
-        return new IdWorker(19, 21);
+        return new IdWorker(8, 21);
     }
 
 }
