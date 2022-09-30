@@ -27,8 +27,8 @@ public enum CDPErrorCode {
 
 	;
 
-	private String code;
-	private String dec;
+	private final String code;
+	private final String dec;
 
 	CDPErrorCode(String code, String dec) {
 		this.code = code;
