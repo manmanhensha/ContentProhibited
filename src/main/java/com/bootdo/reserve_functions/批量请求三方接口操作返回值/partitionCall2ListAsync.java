@@ -1,4 +1,4 @@
-package com.bootdo.reserve_functions.ÅúÁ¿ÇëÇóÈı·½½Ó¿Ú²Ù×÷·µ»ØÖµ;
+package com.bootdo.reserve_functions.æ‰¹é‡è¯·æ±‚ä¸‰æ–¹æ¥å£æ“ä½œè¿”å›å€¼;
 
 /**
  * @author wushiqiang
@@ -19,25 +19,25 @@ public class partitionCall2ListAsync {
 //	@Override
 //	public void sendSubscribeMessageToUser() {
 //		final LambdaQueryWrapper<SubscribeMessageDO> wrapper = new LambdaQueryWrapper<>();
-////		Ã¿´Î´ÓÊı¾İ¿âÈ¡1000
+////		æ¯æ¬¡ä»æ•°æ®åº“å–1000
 //		wrapper.eq(SubscribeMessageDO::getSendState, 2).eq(SubscribeMessageDO::getNoticeAllowanceFlag, 1).last("limit 1000");
 //
 //		final List<SubscribeMessageDO> doList = list(wrapper);
 //		Stopwatch stopwatch = Stopwatch.createStarted();
-//		// ·ÖÅúÖ´ĞĞ
+//		// åˆ†æ‰¹æ‰§è¡Œ
 //		int size = 3;
 //		final List<SubscribeMessageSendVo> doList1 = partitionCall2ListAsync(doList, 3, executorService, this::someCall);
 //		Stopwatch stop = stopwatch.stop();
-//		System.err.println("Ö´ĞĞÊ±¼ä: "+stop.elapsed(TimeUnit.SECONDS)+" Ãë");
+//		System.err.println("æ‰§è¡Œæ—¶é—´: "+stop.elapsed(TimeUnit.SECONDS)+" ç§’");
 //
-//		// ÕıºÃ¼¸ÂÖ
+//		// æ­£å¥½å‡ è½®
 //		int turns;
 //		if (total % size == 0) {
 //			turns = total / size;
 //		} else {
 //			turns = total / size + 1;
 //		}
-//		System.err.println("¹²µ÷ÓÃÁË{}´Î: "+turns);
+//		System.err.println("å…±è°ƒç”¨äº†{}æ¬¡: "+turns);
 //
 //		for (SubscribeMessageSendVo subscribeMessageSendVo : doList1) {
 //			final SubscribeMessageDO subscribeMessageDO = subscribeMessageSendVo.getSubscribeMessageDO();
@@ -100,12 +100,12 @@ public class partitionCall2ListAsync {
 //	}
 
 	/**
-	 * ÇëÇóµ÷ÓÃÈı·½½Ó¿Ú²¢ÇÒ×ª»»³É×Ô¼ºµÄ¶ÔÏó
-	 * @param eachList Ã¿´ÎÇëÇóµÄÊı¾İ
-	 * @return ·µ»Ø×Ô¼ºµÄ¶ÔÏó
+	 * è¯·æ±‚è°ƒç”¨ä¸‰æ–¹æ¥å£å¹¶ä¸”è½¬æ¢æˆè‡ªå·±çš„å¯¹è±¡
+	 * @param eachList æ¯æ¬¡è¯·æ±‚çš„æ•°æ®
+	 * @return è¿”å›è‡ªå·±çš„å¯¹è±¡
 	 */
 //	private List<SubscribeMessageSendVo> someCall(List<SubscribeMessageDO> eachList) {
-//		log.info("µ±Ç°-->{}£¬strList.size£º{}", atomicInteger.incrementAndGet(), eachList.size());
+//		log.info("å½“å‰-->{}ï¼ŒstrList.sizeï¼š{}", atomicInteger.incrementAndGet(), eachList.size());
 //
 //		final List<SubscribeMessageSendVo> subscribeMessageSendVoList = new ArrayList<>();
 //		for (SubscribeMessageDO subscribeMessageDO : eachList) {
