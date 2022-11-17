@@ -1,7 +1,7 @@
 package com.bootdo.reserve_functions.webssh.config;
 
-import com.hxyd.itms.webssh.interceptor.WebSocketInterceptor;
-import com.hxyd.itms.webssh.websocket.WebSSHWebSocketHandler;
+import com.bootdo.reserve_functions.webssh.interceptor.WebSocketInterceptor;
+import com.bootdo.reserve_functions.webssh.websocket.WebSSHWebSocketHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.task.TaskSchedulerBuilder;
 import org.springframework.context.annotation.Bean;

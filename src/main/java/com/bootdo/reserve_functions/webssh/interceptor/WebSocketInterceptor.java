@@ -1,7 +1,7 @@
 package com.bootdo.reserve_functions.webssh.interceptor;
 
 import cn.hutool.core.util.IdUtil;
-import com.hxyd.itms.webssh.constant.ConstantPool;
+import com.bootdo.reserve_functions.webssh.constant.ConstantPool;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.http.server.ServletServerHttpRequest;
@@ -26,7 +26,7 @@ public class WebSocketInterceptor implements HandshakeInterceptor {
 			ServletServerHttpRequest request = (ServletServerHttpRequest) serverHttpRequest;
 			HttpServletRequest servletRequest = request.getServletRequest();
 //			String cityId = servletRequest.getParameter(Constants.CITY_ID);
-			long cityId = IdUtil.getSnowflakeNextId();
+			long cityId = IdUtil.getSnowflake(1, 1).nextId();
 			//将 cityId 放到websocketsession中
 			map.put(ConstantPool.USER_UUID_KEY, cityId);
 			return true;

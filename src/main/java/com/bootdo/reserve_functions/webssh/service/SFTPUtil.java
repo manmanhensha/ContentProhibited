@@ -2,19 +2,15 @@ package com.bootdo.reserve_functions.webssh.service;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
-import com.hxyd.itms.common.agent.model.out.FileLsDto;
-import com.hxyd.itms.common.constant.Constants;
-import com.hxyd.itms.utils.security.ThreadLocalUtil;
-import com.hxyd.itms.webssh.pojo.SFTP;
-import com.hxyd.itms.webssh.pojo.WebSSHData;
+import com.bootdo.reserve_functions.security.ThreadLocalUtil;
+import com.bootdo.reserve_functions.webssh.pojo.SFTP;
+import com.bootdo.reserve_functions.webssh.pojo.WebSSHData;
 import com.jcraft.jsch.*;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
 import java.nio.file.Files;
-import java.util.ArrayList;
 import java.util.Properties;
-import java.util.Vector;
 
 /**
  * @author wushiqiang
@@ -255,44 +251,4 @@ public class SFTPUtil {
 		}
 	}
 
-	/**
-	 * 列出目录下的文件
-	 *
-	 * @param directory 要列出的目录
-	 * @return list 文件名列表
-	 * @throws Exception
-	 */
-	public static FileLsDto listFiles(WebSSHData sshData, String directory) throws Exception {
-		//建立连接
-		SFTP s = getConnect(sshData);
-		ChannelSftp sftp = s.getSftp();
-
-		FileLsDto lsDto = new FileLsDto();
-		lsDto.setDir(directory);
-		ArrayList<FileLsDto.FilesBean> filesBeans = new ArrayList<>();
-
-		//返回目录下所有文件名称
-		Vector fileList = sftp.ls(directory);
-//		断开连接
-//		disConn(session,channel,sftp,s.getChannelExec());
-
-		for (Object o : fileList) {
-			ChannelSftp.LsEntry o1 = (ChannelSftp.LsEntry) o;
-			String fileName = o1.getFilename();
-			if (".".equals(fileName) || "..".equals(fileName)) {
-				continue;
-			}
-			FileLsDto.FilesBean filesBean = new FileLsDto.FilesBean();
-
-			filesBean.setName(fileName);
-			filesBean.setIs_dir(false);
-			if (o1.getLongname().startsWith("d")) {
-				filesBean.setIs_dir(true);
-			}
-			filesBeans.add(filesBean);
-		}
-
-		lsDto.setFiles(filesBeans);
-		return lsDto;
-	}
 }

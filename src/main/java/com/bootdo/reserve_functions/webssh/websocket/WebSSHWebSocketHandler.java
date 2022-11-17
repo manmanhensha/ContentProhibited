@@ -1,7 +1,7 @@
 package com.bootdo.reserve_functions.webssh.websocket;
 
-import com.hxyd.itms.webssh.constant.ConstantPool;
-import com.hxyd.itms.webssh.service.WebSSHService;
+import com.bootdo.reserve_functions.webssh.constant.ConstantPool;
+import com.bootdo.reserve_functions.webssh.service.WebSSHService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
